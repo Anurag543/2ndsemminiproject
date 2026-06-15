@@ -1,0 +1,21 @@
+void setup() {
+  pinMode(13, OUTPUT);      // Set pin 13 as output
+  Serial.begin(9600);       // Start serial communication
+  digitalWrite(13, HIGH);   // Initially turn ON LED
+}
+
+void loop() {
+  if (Serial.available()) {     // Check if serial data is available
+    char val = Serial.read();   // Read the received character
+    Serial.println(val);        // Print the received character
+
+    if (val == '1') {
+      digitalWrite(13, LOW);    // Turn OFF LED
+    }
+    else if (val == '2') {
+      digitalWrite(13, HIGH);   // Turn ON LED
+    }
+
+    delay(100);                 // Delay 100 ms
+  }
+}
