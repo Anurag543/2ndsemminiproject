@@ -1,0 +1,44 @@
+String voice = "";
+int relay1 = 13;   // Relay connected to pin 13
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(relay1, OUTPUT);
+  digitalWrite(relay1, HIGH);   // Initially OFF
+}
+
+void loop()
+{
+  while (Serial.available())
+  {
+    char c = Serial.read();     // Read incoming character
+    voice += c;                 // Append character to voice string
+    delay(10);
+  }
+
+  if (voice.length() > 0)
+  {
+    Serial.println(voice);
+
+    // Remove spaces/newline characters
+    voice.trim();
+
+    // Turn ON light
+    if (voice == "*turn on light")
+    {
+      digitalWrite(relay1, LOW);    // Relay ON
+      Serial.println("Light ON");
+    }
+
+    // Turn OFF light
+    else if (voice == "*turn off light")
+    {
+      digitalWrite(relay1, HIGH);   // Relay OFF
+      Serial.println("Light OFF");
+    }
+
+    // Clear command buffer
+    voice = "";
+  }
+}
